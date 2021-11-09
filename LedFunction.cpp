@@ -24,10 +24,40 @@ LED::LED( int red, int green, int blue, int irPin ) : IR{irPin}
 // @return IrMode enum value represented from IR input
 LED::IrMode LED::getMode()
 {
-    //if(IR.decode(&resultsIR)){
-    //  Serial.println(resultsIR.value);
-  
   IrMode res = NONE;
+  if(IR.decode(&resultsIR)){
+    Serial.println(resultsIR.value);
+    IR.resume(); // resume receiver
+
+    // this next part will iterate through the modes and return based on position. 
+    // codes will go left to right then top to bottom starting at red, using the basic LED
+    // remote given from amazon
+    switch( resultsIR.value )
+    {
+      //Off button code value = 16712445
+      //Row 1
+      case 16718565: return (IrMode)(res + 1);
+      case 16751205: return (IrMode)(res + 2);
+      case 16753245: return (IrMode)(res + 3);
+      case 16720605: return (IrMode)(res + 4);
+      // row 2
+      case 16722645: return (IrMode)(res + 5);
+      case 16755285: return (IrMode)(res + 6);
+      case 16749165: return (IrMode)(res + 7);
+      case 16716525: return (IrMode)(res + 8);
+      // row 3
+      case 16714485: return (IrMode)(res + 9);
+      case 16747125: return (IrMode)(res + 10);
+      case 16757325: return (IrMode)(res + 10);
+      case 16724685: return (IrMode)(res + 10);
+      // row 4
+      case 16726215: return (IrMode)(res + 10);
+      case 16758855: return (IrMode)(res + 11);
+      case 16742535: return (IrMode)(res + 12);
+      case 16775175: return (IrMode)(res + 13);
+      
+    }
+  }
   return res;
 }
 
